@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>br.com.ze</groupId>
+		<artifactId>partner</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>br.com.ze</groupId>
+	<artifactId>partner-application</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>application</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<generated-sources-path>${project.build.directory}/generated-sources</generated-sources-path>
+		<generated-sources-java-path>main/java</generated-sources-java-path>
+		<version.swagger.codegen>2.4.20</version.swagger.codegen>
+		<yaml.file>${project.basedir}/src/main/resources/swagger.yaml</yaml.file>
+    
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+
+		</dependency>
+		
+		<dependency>
+		  <groupId>br.com.ze</groupId>
+          <artifactId>partner-domain</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.boot</groupId> -->
+		<!-- <artifactId>spring-boot-starter-data-mongodb</artifactId> -->
+		<!-- </dependency> -->
+		
+		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
+		<dependency>
+		    <groupId>org.modelmapper</groupId>
+		    <artifactId>modelmapper</artifactId>
+		    <version>3.1.0</version>
+		</dependency>
+				
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.12.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.3.4</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.10.14</version>
+		</dependency>
+
+
+	</dependencies>
+	<build>
+		<plugins>
+		    <plugin>
+		      <groupId>org.springframework.boot</groupId>
+		      <artifactId>spring-boot-maven-plugin</artifactId>
+		      <executions>
+		        <execution>
+		          <id>build-info</id>
+		          <goals>
+		            <goal>build-info</goal>
+		            <goal>repackage</goal>
+		          </goals>
+		        </execution>
+		      </executions>
+		    </plugin>
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>${version.swagger.codegen}</version>
+				<dependencies>
+				   <dependency>
+				      <groupId>io.swagger.codegen.v3</groupId>
+				      <artifactId>swagger-codegen-cli</artifactId>
+				      <version>3.0.25</version>
+				   </dependency>
+				</dependencies>
+				<executions>
+				  <execution>
+				    <id>generate-provider-service-interface</id>
+				    <phase>generate-sources</phase>
+				    <goals>
+				      <goal>generate</goal>
+				    </goals>
+				    <configuration>
+				       <inputSpec>${yaml.file}</inputSpec>
+				       <output>${generated-sources-path}</output>
+				       <language>spring</language>
+				       <library>spring-boot</library>
+				       <modelPackage>br.com.ze.partner.application.provider.presentation.representation</modelPackage>
+				       <apiPackage>br.com.ze.partner.application.api</apiPackage>
+				     
+				       <configOptions>
+				         <delegatePattern>true</delegatePattern>
+				         <interfaceOnly>true</interfaceOnly>
+				         <dateLibrary>java8</dateLibrary>
+				         <sourceFolder>${generated-sources-java-path}</sourceFolder>
+				       </configOptions>
+				       <modelNameSuffix>Representation</modelNameSuffix>
+				       <generateSupportingFiles>false</generateSupportingFiles>
+				       <generateApiTests>false</generateApiTests>
+				    </configuration>
+				  </execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+
+</project>
